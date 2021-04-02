@@ -59,6 +59,8 @@ ingredients <- ingredients %>%
   arrange(desc(half_tsp), ingredient) %>%
   mutate(ingredient = factor(ingredient))
 
+save(ingredients, file = 'ingredients.RData')
+
 # create labels and arrows for the ingredients on the plot
 coords <- tribble(
   ~x, ~y, ~xstart, ~xend, ~ystart, ~yend, ~curvature,
@@ -106,7 +108,7 @@ ggplot() +
              size = 0.25, 
              arrow = arrow(length = unit(0.01, 'npc'))) +
   scale_color_manual(values = c(pal, '#2D2D2D')) +
-  labs(title = 'there are a "waffle" lot of ingredients in waffle batter',
+  labs(title = 'there are "a waffle" lot of ingredients in waffle batter',
        subtitle = '1 square is ½ teaspoon\n',
        caption = 'recipe via NYT Cooking ') +
   xlim(c(0, 30)) +
