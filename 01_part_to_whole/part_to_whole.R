@@ -62,14 +62,14 @@ ingredients <- ingredients %>%
 # create labels and arrows for the ingredients on the plot
 coords <- tribble(
   ~x, ~y, ~xstart, ~xend, ~ystart, ~yend, ~curvature,
-  25.25, 2, 25.5, 24.5, 2.5, 3.5, 0.5,
-  25.25, 10, 25.5, 24.5, 10.5, 11.5, 0.5,
-  25.25, 14, 25.5, 24.5, 14.5, 15.5, 0.5,
-  25.25, 17, 25.5, 24.5, 17.5, 18.5, 0.5,
-  1, 22.5, 5.75, 6.75, 22.5, 21.5, -0.5,
-  11, 22.5, 12.75, 13.75, 22.5, 21.5, -0.5,
-  14, 22.5, 18.25, 19.25, 22.5, 21.5, -0.5,
-  22.5, 23, 22.25, 21.25, 23, 21.5, 0.5,
+  25.25, 5.5, 25.5, 24.5, 6, 7, 0.5,
+  25.25, 9.5, 25.5, 24.5, 10, 11, 0.5,
+  25.25, 13.5, 25.5, 24.5, 14, 15, 0.5,
+  25.25, 16.5, 25.5, 24.5, 17, 18, 0.5,
+  1.25, 22.5, 6, 7, 22.5, 21.5, -0.5,
+  10.25, 22.5, 12, 13, 22.5, 21.5, -0.5,
+  13.75, 22.5, 18, 19, 22.5, 21.5, -0.5,
+  22.25, 23, 22, 21, 23, 21.5, 0.5,
   25, 20.5, 25.5, 23.5, 21, 21.5, 0.5
 ) 
 
@@ -108,7 +108,7 @@ ggplot() +
   scale_color_manual(values = c(pal, '#2D2D2D')) +
   labs(title = 'there are a "waffle" lot of ingredients in waffle batter',
        subtitle = '1 square is ½ teaspoon\n',
-       caption = 'recipe via NYT Cooking') +
+       caption = 'recipe via NYT Cooking ') +
   xlim(c(0, 30)) +
   coord_equal() +
   theme_void() + 
@@ -119,4 +119,4 @@ ggplot() +
         plot.background = element_rect(fill = '#2D2D2D'),
         legend.position = 'none')
 
-ggsave('part_to_whole.png', width = 5.835, height = 5.3, units = 'in', dpi = 500)
+ggsave('part_to_whole_test.png', width = 5.835, height = 5.3, units = 'in', dpi = 500)
