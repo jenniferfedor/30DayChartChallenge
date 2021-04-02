@@ -119,4 +119,4 @@ ggplot() +
         plot.background = element_rect(fill = '#2D2D2D'),
         legend.position = 'none')
 
-ggsave('part_to_whole_test.png', width = 5.835, height = 5.3, units = 'in', dpi = 500)
+ggsave('part_to_whole.png', width = 5.835, height = 5.3, units = 'in', dpi = 500)
