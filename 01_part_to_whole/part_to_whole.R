@@ -49,7 +49,7 @@ conversions <- tribble(
   'teaspoon', 1,
   'tablespoon', 3,
   'cup', 48,
-  'large', 9
+  'large', 9 # (large egg)
 )
 
 # convert the measurements to a common unit (half teaspoon)
@@ -78,8 +78,8 @@ labels <- coords %>%
   rename('label' = `as.character(ingredients$ingredient)`) 
 
 # create a color palette for the plot
-set.seed(10)
-pal <- sample(c(wes_palette('Royal1'), wes_palette('Royal2')))
+cols <- c(wes_palette('Royal1'), wes_palette('Royal2'))
+pal <- cols[c(5, 3, 8, 9, 1, 6, 4, 7, 2)]
 
 # create the plot
 ggplot() +
@@ -93,7 +93,7 @@ ggplot() +
   geom_text(data = labels,
             aes(x = x, y = y, label = label, color = label), 
             hjust = 0, 
-            size = 6,
+            size = 4,
             family = 'reenie') +
   geom_curve(data = labels %>% filter(curvature == 0.5),
              aes(x = xstart, xend = xend, y = ystart, yend = yend, color = label),
@@ -110,12 +110,13 @@ ggplot() +
        subtitle = '1 square is ½ teaspoon\n',
        caption = 'recipe via NYT Cooking') +
   xlim(c(0, 30)) +
+  coord_equal() +
   theme_void() + 
-  theme(plot.title = element_text(hjust = 0.5, family = 'fredericka', size = 22, color = 'white'),
-        plot.subtitle = element_text(hjust = 0.5, family = 'reenie', size = 19, color = 'white'),
-        plot.caption = element_text(hjust = 1, family = 'reenie', size = 14, color = 'white'),
+  theme(plot.title = element_text(hjust = 0.5, family = 'fredericka', size = 16, color = 'white'),
+        plot.subtitle = element_text(hjust = 0.5, family = 'reenie', size = 13, color = 'white'),
+        plot.caption = element_text(hjust = 1, family = 'reenie', size = 10, color = 'white'),
         panel.background = element_rect(fill = '#2D2D2D', color = '#2D2D2D'),
         plot.background = element_rect(fill = '#2D2D2D'),
         legend.position = 'none')
 
-ggsave('part_to_whole.png', width = 9, height = 5.5, units = 'in', dpi = 500)
+ggsave('part_to_whole.png', width = 5.835, height = 5.3, units = 'in', dpi = 500)
