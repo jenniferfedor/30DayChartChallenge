@@ -110,7 +110,7 @@ ggplot() +
   scale_color_manual(values = c(pal, '#2D2D2D')) +
   labs(title = 'there are "a waffle" lot of ingredients in waffle batter',
        subtitle = '1 square is ½ teaspoon\n',
-       caption = 'recipe via NYT Cooking ') +
+       caption = 'recipe via NYT Cooking') +
   xlim(c(0, 30)) +
   coord_equal() +
   theme_void() + 
