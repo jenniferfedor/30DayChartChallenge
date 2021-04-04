@@ -37,7 +37,7 @@ trees <- treecoverloss %>%
 # colors to use in the plot
 iconcolor <- pnw_palette('Cascades', 8)[[2]]
 titlecolor <- pnw_palette('Cascades', 8)[[1]]
-backgroundcolor <- pnw_palette('Moth')[[5]]
+backgroundcolor <- '#F9F1DD'
 
 # create the pictogram plot
 ggplot(data = trees) +
