@@ -7,3 +7,7 @@
 ## Day 2: Pictogram
 
 ![](02_pictogram/pictogram.png)
+
+## Day 3: Historical
+
+![](03_historical/historical.png)
