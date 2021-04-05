@@ -11,3 +11,9 @@
 ## Day 3: Historical
 
 ![](03_historical/historical.png)
+
+## Day 4: Magical
+
+## Day 5: Slope
+
+![](05_slope/slope.png)
