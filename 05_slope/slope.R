@@ -77,6 +77,12 @@ pal <- top10 %>%
 
 # create the plot
 ggplot() +
+  geom_segment(aes(y = c(175, 150, 125, 100, 75),
+                   yend = c(175, 150, 125, 100, 75),
+                   x = rep(2013.1, 5),
+                   xend = rep(2019.9, 5)),
+               linetype = 'dotted',
+               color = pnw_palette('Cascades')[2]) +
   geom_line(data = top10, 
             aes(x = year, y = rank, color = breed),
             size = 1.5) +
@@ -97,7 +103,7 @@ ggplot() +
   scale_x_continuous(limits = c(2013, 2023), 
                      breaks = c(2013, 2020)) +
   labs(title = 'Pup-ularity contest',
-       subtitle = "<span style = 'color:#FFFFFF;'>Which ten dog breeds had the largest absolute changes in popularity ranking<br>(</span><span style = 'color:#dec000;'>increase</span><span style = 'color:#FFFFFF;'> or </span><span style = 'color:#88a2b9;'>decrease</span><span style = 'color:#FFFFFF;'>) from 2013 to 2020?</span><br><br>",
+       subtitle = "<span style = 'color:#FFFFFF;'>Which dog breeds had the ten largest absolute changes in popularity ranking<br>(</span><span style = 'color:#dec000;'>increase</span><span style = 'color:#FFFFFF;'> or </span><span style = 'color:#88a2b9;'>decrease</span><span style = 'color:#FFFFFF;'>) from 2013 to 2020?</span><br><br>",
        caption = '\n\nData: American Kennel Club',
        y = 'Rank') +
   theme(legend.position = 'none',
