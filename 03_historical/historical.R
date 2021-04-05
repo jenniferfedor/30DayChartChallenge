@@ -42,9 +42,9 @@ labels <- night %>%
                                    month_year == 'Jan 1855' ~ 'Jan. 1855',
                                    month_year == 'May 1854' ~ 'May',
                                    TRUE ~ gsub(month_year, pattern = ' 185[4|5]$', replacement = '.'))),
-         offset = case_when(label == 'apr. 1854' ~ 6,
-                            label == 'may' ~ 3,
-                            label == 'jun.' ~ 4,
+         offset = case_when(label == 'apr. 1854' ~ 7,
+                            label == 'may' ~ 6.5,
+                            label == 'jun.' ~ 7,
                             TRUE ~ 2.5))
 
 # create the plot
@@ -55,6 +55,7 @@ ggplot() +
            position = position_identity(),
            alpha = 1,
            width = 1,
+           size = 0.2,
            color = 'black') +
   scale_fill_manual(values = c('#8cc0d1', '#e0a4a4', '#636060')) +
   coord_polar(start = -pi/2, 
@@ -67,16 +68,16 @@ ggplot() +
   geom_text(data = labels,
             aes(x = month_year, y = deaths_to_plot + offset, label = label),
             family = 'imfell',
-            size = 3) +
+            size = 2.5) +
   labs(title = 'Diagram of the Causes of Mortality\nIn the Army in the East',
        caption = '\n\nrecreation of the original rose diagram by florence nightingale, 1858\ndata via {histdata}') +
   theme_void() +
-  theme(plot.title = element_text(family = 'smythe', hjust = 0.5, size = 24),
-        plot.caption = element_text(family = 'imfell', hjust = 0.5, size = 10),
+  theme(plot.title = element_text(family = 'smythe', hjust = 0.5, size = 20),
+        plot.caption = element_text(family = 'imfell', hjust = 0.5, size = 8),
         legend.position = 'bottom',
         legend.title = element_blank(),
-        legend.text = element_text(family = 'imfell', size = 10),
+        legend.text = element_text(family = 'imfell', size = 9),
         plot.background = element_rect(fill = '#faf9f0', color = '#faf9f0'),
         panel.background = element_rect(fill = '#faf9f0', color = '#faf9f0'))
 
-ggsave(here('03_historical', 'historical.png'), width = 4.28, height = 6, units = 'in', dpi = 500)
+ggsave(here('03_historical', 'historical.png'), width = 4.28, height = 5.77, units = 'in', dpi = 500)
