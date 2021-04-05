@@ -69,7 +69,7 @@ ggplot() +
             aes(x = month_year, y = deaths_to_plot + offset, label = label),
             family = 'imfell',
             size = 2.5) +
-  labs(title = 'Diagram of the Causes of Mortality\nIn the Army in the East',
+  labs(title = 'Diagram of the Causes of Mortality\nIn the Army In the East',
        caption = '\n\nrecreation of the original rose diagram by florence nightingale, 1858\ndata via {histdata}') +
   theme_void() +
   theme(plot.title = element_text(family = 'smythe', hjust = 0.5, size = 20),
