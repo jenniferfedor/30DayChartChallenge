@@ -16,7 +16,7 @@
 
 ## Day 5: Slope
 
-![](05_slope/slope.png)
+<img src="05_slope/slope.png" width="200" />
 
 ## Day 6: Experimental
 
