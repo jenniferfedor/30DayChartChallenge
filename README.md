@@ -17,3 +17,11 @@
 ## Day 5: Slope
 
 ![](05_slope/slope.png)
+
+## Day 6: Experimental
+
+## Day 7: Physical
+
+![](07_physical/physical.png)
+
+## Day 8: Animals
