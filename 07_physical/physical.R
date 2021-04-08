@@ -135,6 +135,8 @@ mountains[mountains$mountain == 'Monte Penice', 'continent'] <- 'Europe'
 mountains[mountains$mountain == 'Mount Bates', 'continent'] <- 'Oceania'
 mountains[mountains$mountain == 'Alto de Coloane', 'continent'] <- 'Asia'
 
+save(mountains, file = here::here('07_physical', 'data', 'mountains.RData'))
+
 # create a color palette for the plot
 colors <- pnw_palette('Moth', 9)
 

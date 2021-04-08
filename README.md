@@ -25,3 +25,5 @@
 ![](07_physical/physical.png)
 
 ## Day 8: Animals
+
+![](08_animals/animals.png)
