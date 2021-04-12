@@ -92,6 +92,15 @@ plot1 <- ggplot() +
   geom_line(data = yearly_medians %>% filter(!year %in% c('2017', '2018')),
             aes(x = year, y = tpf_med, group = 1),
             color = mediancol) +
+  geom_text(aes(x = '1995', y = 85, label = ' yearly median'),
+            family = 'roboto', 
+            color = textcol,
+            size = 3,
+            hjust = 0) +
+  geom_curve(aes(y = 80, yend = 18, x = '1995', xend = '1994'),
+             color = textcol,
+             #curvature = 0.3,
+             arrow = arrow(length = unit(0.02, 'npc'))) +
   scale_y_log10(limits = c(2, 10000)) +
   annotation_logticks(sides = 'l', 
                       outside = FALSE, 
@@ -102,9 +111,9 @@ plot1 <- ggplot() +
   labs(y = 'Sample size for analysis',
        x = '\nYear of publication') +
   theme(legend.position = 'none',
-        axis.title.y = element_text(family = 'roboto', color = textcol),
+        axis.title.y = element_text(family = 'roboto', color = textcol, size = 10),
         axis.text.y = element_text(family = 'roboto', color = textcol),
-        axis.title.x = element_text(family = 'roboto', color = textcol),
+        axis.title.x = element_text(family = 'roboto', color = textcol, size = 10),
         axis.text.x = element_text(family = 'roboto', color = textcol),
         axis.line = element_line(color = textcol),
         panel.grid.major = element_line(linetype = 'dashed', color = gridcol),
@@ -143,7 +152,8 @@ plot1 + plot2 +
   plot_layout(widths = c(7, 1)) +
   plot_annotation(
     title = ' Sample size in fMRI studies',
-    caption = '\nData: Szucs & Ioannidis (NeuroImage, 2020)',
+    #caption = '\nData: Szucs & Ioannidis (NeuroImage, 2020)',
+    caption = '<br><br>**Data:** Szucs, D., & Ioannidis, J. PA. (2020). Sample size evolution in neuroimaging research: An evaluation of highly-<br>cited studies (1990–2012) and of latest practices (2017–2018) in high-impact journals. *NeuroImage, 221,* 117164',
     subtitle = 
     '  Science is facing a reproducibility crisis. This is particularly apparent in functional magnetic resonance imaging (fMRI) and other human neuroimaging
   studies, in which sample sizes are often constrained by the high cost and effort associated with acquiring these data; insufficient sample size reduces
@@ -154,10 +164,8 @@ plot1 + plot2 +
   of open data and data-sharing initiatives, the median study sample size has remained low over time.\n'
   ) &
   theme(plot.title = element_text(size = 14, face = 'bold', family = 'roboto', color = textcol),
-        plot.subtitle = element_text(size = 10, family = 'roboto', color = textcol),
-        plot.caption = element_text(family = 'roboto', color = textcol))
+        plot.subtitle = element_text(size = 9, family = 'roboto', color = textcol),
+        plot.caption = element_markdown(size = 8, family = 'roboto', color = textcol, hjust = 1))
 
-# Szucs, D., & Ioannidis, J. PA. (2020). Sample size evolution in neuroimaging research: An evaluation of highly-cited studies (1990–2012) and of latest practices (2017–2018) in high-impact journals. NeuroImage, 221, 117164. https://doi.org/10.1016/j.neuroimage.2020.117164
-
-
+ggsave(here::here('06_experimental', 'experimental.png'), width = 8.75, height = 6.5, units = 'in', dpi = 500)
 
