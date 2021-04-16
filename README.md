@@ -41,3 +41,4 @@
 ### Day 11: Circular
 
 ### Day 12: Strips
+![](12_strips/strips.png)
