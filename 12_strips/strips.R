@@ -102,4 +102,4 @@ ggplot() +
         axis.text.y = element_text(family = 'roboto', color = textcol, size = 11),
         plot.margin = margin(t = 0, r = 30, b = 5, l = 10, unit = "pt"))
 
-ggsave(here::here('12_strips', 'strips.png'), width = 7, height = 6.8, units = 'in', dpi = 500)
+ggsave(here::here('12_strips', 'strips.png'), width = 7.4, height = 6.8, units = 'in', dpi = 500)
