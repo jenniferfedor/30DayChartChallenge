@@ -99,6 +99,7 @@ ggplot() +
         plot.subtitle = element_text(family = 'cabin', hjust = 0.5, color = fillcol, size = 15),
         plot.caption = element_text(family = 'cabin', hjust = 0.5, color = textcol, size = 11),
         axis.title.y = element_text(family = 'cabin', size = 14, color = textcol),
-        axis.text.y = element_text(family = 'roboto', color = textcol, size = 11))
+        axis.text.y = element_text(family = 'roboto', color = textcol, size = 11),
+        plot.margin = margin(t = 0, r = 30, b = 5, l = 10, unit = "pt"))
 
 ggsave(here::here('12_strips', 'strips.png'), width = 7, height = 6.8, units = 'in', dpi = 500)
