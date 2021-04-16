@@ -21,10 +21,10 @@ crosswalk <- read.delim(here::here('07_physical', 'data', 'country-and-continent
 # clean up the crosswalk data 
 crosswalk <- crosswalk %>%
   rename_all(tolower) %>%
-  mutate(country_name = gsub(country_name, pattern = ',.*', replacement = ''),
-         country_name = gsub(country_name, pattern = '\\(.*\\)', replacement = ''),
-         country_name = gsub(country_name, pattern = ' of .*', replacement = ''),
-         country_name = gsub(country_name, pattern = '[[:space:]]$|^[[:space:]]', replacement = '')) %>%
+  mutate(country_name = gsub(country_name, pattern = ',.*', replacement = '') %>%
+           gsub(., pattern = '\\(.*\\)', replacement = '') %>%
+           gsub(., pattern = ' of .*', replacement = '') %>%
+           gsub(., pattern = '[[:space:]]$|^[[:space:]]', replacement = '')) %>%
   select(continent_name, country_name)
 
 # list of mountains and elevations via Wikipedia
@@ -58,60 +58,60 @@ for (i in 1:length(wikitables)){
 mountains <- mountains %>%
   mutate(
     # replace any whitespace character with space, remove parentheticals and notes following the country name(s)
-    location = gsub(location, pattern = '[[:space:]]', replacement = ' '),
-    location = gsub(location, pattern = ' –.*| –.*|\\..*', replacement = ''),
-    location = gsub(location, pattern = '\\(.*\\)', replacement = ''),
-    location = gsub(location, pattern = '.* in ', replacement = ''),
+    location = gsub(location, pattern = '[[:space:]]', replacement = ' ') %>%
+      gsub(., pattern = ' –.*| –.*|\\..*', replacement = '') %>%
+      gsub(., pattern = '\\(.*\\)', replacement = '') %>%
+      gsub(., pattern = '.* in ', replacement = '') %>%
          
-    # if there is a list of locations(sep by comma, period, dashes, slashes), just take the first one
-    location = gsub(location, pattern = '^.*, ', replacement = ''),
-    location = gsub(location, pattern = '/.*', replacement = ''),
-    location = gsub(location, pattern = '-.*', replacement = ''),
-    location = gsub(location, pattern = ' and .*| \\& .*', replacement = ''),
+      # if there is a list of locations(sep by comma, period, dashes, slashes), just take the first one
+      gsub(., pattern = '^.*, ', replacement = '') %>%
+      gsub(., pattern = '/.*', replacement = '') %>%
+      gsub(., pattern = '-.*', replacement = '') %>%
+      gsub(., pattern = ' and .*| \\& .*', replacement = '') %>%
          
-    # rename for consistency within the dataset as well as with crosswalk below
-    location = gsub(location, pattern = '[Ww]estern|[Ee]astern|[Nn]orthern|[Ss]outhern', replacement = ''),
-    location = gsub(location, pattern = 'US|.*United States.*', replacement = 'United States'),
-    location = gsub(location, pattern = '.*Italy$|^Italy.*|.*Italian.*|.*Sicily|Marche|Emilia|Sardinia|liguria|Lombardy|Italy', replacement = 'Italy'),
-    location = gsub(location, pattern = 'Canadian.*|^B$|Yukon|Waddington Range', replacement = 'Canada'),
-    location = gsub(location, pattern = 'DRC|Democratic Republic of the Congo', replacement = 'Congo'),
-    location = gsub(location, pattern = 'Russia.*|Chukotka', replacement = 'Russian Federation'),
-    location = gsub(location, pattern = 'UK|England|British.*|Wales|Scotland', replacement = 'United Kingdom'),
-    location = gsub(location, pattern = '.*Korea', replacement = 'Korea'),
-    location = gsub(location, pattern = 'Bosnia|BiH|Mountain Dinara', replacement = 'Bosnia and Herzegovina'),
-    location = gsub(location, pattern = 'Trinidad', replacement = 'Trinidad and Tobago'),
-    location = gsub(location, pattern = '.*India$|^India.*|Nagaland|Uttarakhand', replacement = 'India'),
-    location = gsub(location, pattern = '.*Australia', replacement = 'Australia'),
-    location = gsub(location, pattern = '.*Swiss.*', replacement = 'Switzerland'),
-    location = gsub(location, pattern = 'Kyrgyzstan', replacement = 'Kyrgyz Republic'),
-    location = gsub(location, pattern = 'Afghanistan–Tajikistan', replacement = 'Afghanistan'),
-    location = gsub(location, pattern = 'Laos', replacement = "Lao People's Democratic Republic"),
-    location = gsub(location, pattern = 'Columbia', replacement = 'Colombia'),
-    location = gsub(location, pattern = '.*Chile', replacement = 'Chile'),
-    location = gsub(location, pattern = '.*China.*|Tibet|Karakoram|Kangri Garpo', replacement = 'China'),
-    location = gsub(location, pattern = 'Crna Gora', replacement = 'Montenegro'),
-    location = gsub(location, pattern = 'Libya', replacement = 'Libyan Arab Jamahiriya'),
-    location = gsub(location, pattern = 'North Macedonia', replacement = 'Macedonia'),
-    location = gsub(location, pattern = '.*Iran', replacement = 'Iran'),
-    location = gsub(location, pattern = 'South Ossetia or Georgia', replacement = 'Georgia'),
-    location = gsub(location, pattern = 'Pyrenees|Réunion', replacement = 'France'),
-    location = gsub(location, pattern = 'Muzaffarabad Azad Kashmir', replacement = 'Pakistan'),
-    location = gsub(location, pattern = 'East Timor', replacement = 'Timor-Leste'),
-    location = gsub(location, pattern = 'Syria', replacement = 'Syrian Arab Republic'),
-    location = gsub(location, pattern = 'Kosovo', replacement = 'Serbia'),
-    location = gsub(location, pattern = 'Victoria Land|Kerguelen Islands|South Shetland Islands|Australian Antarctic Territory', replacement = 'Antarctica'),
-    location = gsub(location, pattern = 'Galunggung', replacement = 'Indonesia'),
-    location = gsub(location, pattern = 'Roosevelt Range', replacement = 'Greenland'),
-    location = gsub(location, pattern = 'Saint Vincent', replacement = 'Saint Vincent and the Grenadines'),
-    location = gsub(location, pattern = 'West Bank', replacement = 'Israel'),
-    location = gsub(location, pattern = 'Saint Barthélemy', replacement = 'Saint Barthelemy'),
+      # rename for consistency within the dataset as well as with crosswalk below
+      gsub(., pattern = '[Ww]estern|[Ee]astern|[Nn]orthern|[Ss]outhern', replacement = '') %>%
+      gsub(., pattern = 'US|.*United States.*', replacement = 'United States') %>%
+      gsub(., pattern = '.*Italy$|^Italy.*|.*Italian.*|.*Sicily|Marche|Emilia|Sardinia|liguria|Lombardy|Italy', replacement = 'Italy') %>%
+      gsub(., pattern = 'Canadian.*|^B$|Yukon|Waddington Range', replacement = 'Canada') %>%
+      gsub(., pattern = 'DRC|Democratic Republic of the Congo', replacement = 'Congo') %>%
+      gsub(., pattern = 'Russia.*|Chukotka', replacement = 'Russian Federation') %>%
+      gsub(., pattern = 'UK|England|British.*|Wales|Scotland', replacement = 'United Kingdom') %>%
+      gsub(., pattern = '.*Korea', replacement = 'Korea') %>%
+      gsub(., pattern = 'Bosnia|BiH|Mountain Dinara', replacement = 'Bosnia and Herzegovina') %>%
+      gsub(., pattern = 'Trinidad', replacement = 'Trinidad and Tobago') %>%
+      gsub(., pattern = '.*India$|^India.*|Nagaland|Uttarakhand', replacement = 'India') %>%
+      gsub(., pattern = '.*Australia', replacement = 'Australia') %>%
+      gsub(., pattern = '.*Swiss.*', replacement = 'Switzerland') %>%
+      gsub(., pattern = 'Kyrgyzstan', replacement = 'Kyrgyz Republic') %>%
+      gsub(., pattern = 'Afghanistan–Tajikistan', replacement = 'Afghanistan') %>%
+      gsub(., pattern = 'Laos', replacement = "Lao People's Democratic Republic") %>%
+      gsub(., pattern = 'Columbia', replacement = 'Colombia') %>%
+      gsub(., pattern = '.*Chile', replacement = 'Chile') %>%
+      gsub(., pattern = '.*China.*|Tibet|Karakoram|Kangri Garpo', replacement = 'China') %>%
+      gsub(., pattern = 'Crna Gora', replacement = 'Montenegro') %>%
+      gsub(., pattern = 'Libya', replacement = 'Libyan Arab Jamahiriya') %>%
+      gsub(., pattern = 'North Macedonia', replacement = 'Macedonia') %>%
+      gsub(., pattern = '.*Iran', replacement = 'Iran') %>%
+      gsub(., pattern = 'South Ossetia or Georgia', replacement = 'Georgia') %>%
+      gsub(., pattern = 'Pyrenees|Réunion', replacement = 'France') %>%
+      gsub(., pattern = 'Muzaffarabad Azad Kashmir', replacement = 'Pakistan') %>%
+      gsub(., pattern = 'East Timor', replacement = 'Timor-Leste') %>%
+      gsub(., pattern = 'Syria', replacement = 'Syrian Arab Republic') %>%
+      gsub(., pattern = 'Kosovo', replacement = 'Serbia') %>%
+      gsub(., pattern = 'Victoria Land|Kerguelen Islands|South Shetland Islands|Australian Antarctic Territory', replacement = 'Antarctica') %>%
+      gsub(., pattern = 'Galunggung', replacement = 'Indonesia') %>%
+      gsub(., pattern = 'Roosevelt Range', replacement = 'Greenland') %>%
+      gsub(., pattern = 'Saint Vincent', replacement = 'Saint Vincent and the Grenadines') %>%
+      gsub(., pattern = 'West Bank', replacement = 'Israel') %>%
+      gsub(., pattern = 'Saint Barthélemy', replacement = 'Saint Barthelemy') %>%
          
-    # replace US state and location names with 'United States'
-    location = gsub(location, pattern = 'Alaska|California|Hawaii|Montana|Nevada|New Mexico|Texas|Utah|Wyoming', replacement = 'United States'),
-    location = gsub(location, pattern = 'Death Valley|North Cascades|Wrangell Mtns|Saint Elias Mountains|the Tushar Mountains|White Mtns', replacement = 'United States'),
+      # replace US state and location names with 'United States'
+      gsub(., pattern = 'Alaska|California|Hawaii|Montana|Nevada|New Mexico|Texas|Utah|Wyoming', replacement = 'United States') %>%
+      gsub(., pattern = 'Death Valley|North Cascades|Wrangell Mtns|Saint Elias Mountains|the Tushar Mountains|White Mtns', replacement = 'United States') %>%
          
-    # finally, remove any remaining leading and trailing spaces
-    location = gsub(location, pattern = '[[:space:]]$|^[[:space:]]', replacement = '')
+      # finally, remove any remaining leading and trailing spaces
+      gsub(., pattern = '[[:space:]]$|^[[:space:]]', replacement = '')
   )
 
 # join mountain elevation data and crosswalk country to continent data
@@ -166,8 +166,9 @@ ggplot(data = mountains,
         axis.title.y = element_blank(),
         plot.background = element_rect(fill = background, color = background),
         panel.background = element_rect(fill = background, color = background),
-        panel.grid.minor = element_line(color = '#615151', linetype = 'dotted'),
-        panel.grid.major = element_line(color = '#615151', linetype = 'dotted'),
+        #panel.grid.minor = element_line(color = '#615151', linetype = 'dotted'),
+        #panel.grid.major = element_line(color = '#615151', linetype = 'dotted'),
+        panel.grid = element_blank(),
         plot.title = element_text(color = title, size = 14, family = 'signika', face = 'bold'),
         plot.subtitle = element_text(color = text, size = 10, family = 'signika'),
         plot.caption = element_text(color = text, size = 7, family = 'signika'),
