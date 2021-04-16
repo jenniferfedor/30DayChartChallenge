@@ -34,10 +34,11 @@ trees <- treecoverloss %>%
   ungroup() %>%
   mutate(state = reorder(as.factor(state), -total_loss_10kha))
 
-# colors to use in the plot
-iconcolor <- pnw_palette('Cascades', 8)[[2]]
-titlecolor <- pnw_palette('Cascades', 8)[[1]]
-backgroundcolor <- '#F9F1DD'
+# color palette by @awsmcolor on instagram
+textcolor <- '#767000'
+titlecolor <- '#f45744'
+backgroundcolor <- '#f7f0d6'
+iconcolor <- '#554f0e'
 
 # create the pictogram plot
 ggplot(data = trees) +
@@ -66,13 +67,14 @@ ggplot(data = trees) +
         panel.grid.major = element_blank(), 
         panel.grid.minor = element_blank(),
         strip.background = element_blank(),
-        axis.line.x = element_line(color= titlecolor),
+        axis.line.x = element_line(color= textcolor),
         panel.background = element_rect(fill = backgroundcolor, color = backgroundcolor),
         plot.background = element_rect(fill = backgroundcolor, color = backgroundcolor),
-        strip.text.y.left = element_text(family = 'rubik', face = 'bold', color = titlecolor, size = 13, hjust = 1, angle = 0),
-        plot.title = element_text(family = 'rubik', face = 'bold', color = titlecolor, size = 20, hjust = 0),
-        plot.subtitle = element_text(family = 'rubik', color = titlecolor, size = 12, hjust = 0),
-        plot.caption = element_text(family = 'rubik', color = titlecolor, size = 11, hjust = 1),
-        axis.text.x = element_text(family = 'rubik', color = titlecolor, size = 11))
+        strip.text.y.left = element_text(family = 'rubik', face = 'bold', color = textcolor, size = 11, hjust = 1, angle = 0),
+        plot.title = element_text(family = 'rubik', face = 'bold', color = titlecolor, size = 16, hjust = 0),
+        plot.subtitle = element_text(family = 'rubik', color = textcolor, size = 11, hjust = 0),
+        plot.caption = element_text(family = 'rubik', color = textcolor, size = 10, hjust = 1),
+        axis.text.x = element_text(family = 'rubik', color = textcolor, size = 10),
+        axis.ticks.x = element_line(color = textcolor))
 
-ggsave(here('02_pictogram/pictogram.png'), width = 11.5, height = 7, units = 'in', dpi = 500)
+ggsave(here('02_pictogram', 'pictogram.png'), width = 11.5, height = 7, units = 'in', dpi = 500)
