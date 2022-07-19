@@ -14,10 +14,6 @@
 
 ![](03_historical/historical.png)
 
-### Day 4: Magical
-
-![](04_magical/magical.png)
-
 ### Day 5: Slope
 
 ![](05_slope/slope.png)
@@ -32,15 +28,11 @@
 
 ![](07_physical/physical.png)
 
-### Day 8: Animals
-
-![](08_animals/animals.png)
-
-### Day 9: Statistics
-
-### Day 10: Abstract
-
-### Day 11: Circular
-
 ### Day 12: Strips
 ![](12_strips/strips.png)
+
+## IV. Time series
+
+### Day 23: Tiles
+![](23_tiles/23_tiles.png)
+
