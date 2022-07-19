@@ -108,42 +108,69 @@ colnames(lotr_budget) <- colnames(hobbit_budget)
 # combine the two tables
 budgets <- bind_rows(lotr_budget, hobbit_budget)
 
-# adjust for inflation to 2021 USD
+budgets <- budgets %>%
+  separate(`release date u.s. release date`, 
+           into = c('release_day', 'release_month', 'release_year'), 
+           sep = '[[:space:]]', 
+           extra = 'drop',
+           convert = TRUE) %>%
+  mutate(release_date = ymd(sprintf('%s-%s-%s', release_year, release_month, release_day))) %>%
+  mutate(box_office_gross_worldwide = gsub(`box office gross worldwide`, pattern = '\\$|,', replacement = '')) %>%
+  mutate(box_office_gross_worldwide = as.numeric(box_office_gross_worldwide)) %>%
+  select(film, release_year, release_date, box_office_gross_worldwide)
 
+# adjust for inflation to 2021 USD
+inflation <- tribble(
+  # via https://www.officialdata.org/us/inflation/
+  ~year, ~inflation_factor,
+  2001, 1.54,
+  2002, 1.52,
+  2003, 1.48,
+  2012, 1.19,
+  2013, 1.17,
+  2014, 1.15
+)
+
+budgets <- budgets %>%
+  left_join(inflation, by = c('release_year' = 'year')) %>%
+  mutate(box_office_gross_worldwide_2021usd = box_office_gross_worldwide*inflation_factor) %>%
+  mutate(box_office_gross_worldwide_2021usd_billions = box_office_gross_worldwide_2021usd/1000000000) %>%
+  mutate(film = gsub(film, pattern = 'The Hobbit: ', replacement = ''))
 
 
 # join the awards and ratings data ----
-awards_ratings <- awards %>%
-  left_join(ratings %>% select(film, rating), by = 'film')
+awards_budgets <- awards %>%
+  left_join(budgets %>% select(film, box_office_gross_worldwide_2021usd_billions), by = 'film')
 
 # create the plot ----
 # color palette created with https://mycolor.space/
 colors <- c('#192029', '#f4eff9', '#897892', '#383C4B')
 
 # plot
+quartz()
 ggplot() +
-  geom_segment(data = awards_ratings,
-               aes(x = film, xend = film, y = min(rating)-9, yend = rating),
+  geom_segment(data = awards_budgets,
+               aes(x = film, xend = film, y = min(box_office_gross_worldwide_2021usd_billions)-1, yend = box_office_gross_worldwide_2021usd_billions),
                color = colors[2],
                size = 0.5) +
-  geom_moon(data = awards_ratings,
-            aes(x = film, y = rating, ratio = won/nominations, size = nominations),
+  geom_moon(data = awards_budgets,
+            aes(x = film, y = box_office_gross_worldwide_2021usd_billions, ratio = won/nominations, size = nominations),
             right = TRUE,
             fill = colors[2],
             color = colors[2],
             stroke = 0.25) + 
-  geom_moon(data = awards_ratings,
-            aes(x = film, y = rating, ratio = lost/nominations, size = nominations),
+  geom_moon(data = awards_budgets,
+            aes(x = film, y = box_office_gross_worldwide_2021usd_billions, ratio = lost/nominations, size = nominations),
             right = FALSE,
             fill = colors[3],
             color = colors[2],
             stroke = 0.25) +
   scale_size(range = c(10, 30)) +
-  scale_y_continuous(limits = c(50, 110)) +
+  scale_y_continuous(limits = c(0, 2)) +
   # replace second occurrence of a space in each string with a line break to 'wrap' the long x axis labels
   scale_x_discrete(labels = gsub(awards_ratings$film, pattern = '^([^ ]+[ ]+[^ ]+)[ ]', replacement = '\\1\n\\2')) +
   labs(x = '\n\nFilm',
-       y = 'Rotten Tomatoes rating (percent)\n',
+       y = 'Box office gross, billions (2021 USD)\n',
        title = 'Critical acclaim and commercial success for the "Lord of the Rings" and "Hobbit" trilogies',
        subtitle = 
 "<br>Each moon on the plot below displays the <span style = 'color:#f4eff9;'>proportion of Academy Award nominations won</span> per film, with the size of the moon

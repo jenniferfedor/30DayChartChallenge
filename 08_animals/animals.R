@@ -26,7 +26,7 @@ fish <- fish_url %>%
   select(name, price, location) %>%
   mutate(price = gsub(price, pattern = ',', replacement = ''),
          price = as.numeric(price),
-         species = 'Fish')
+         type = 'Fish')
 
 # scrape the table containing bug selling prices
 bugs <- bugs_url %>%
@@ -37,7 +37,7 @@ bugs <- bugs_url %>%
   select(name, price, location) %>%
   mutate(price = gsub(price, pattern = ',', replacement = ''),
          price = as.numeric(price),
-         species = 'Bugs')
+         type = 'Bugs')
 
 # scrape the table containing sea creature selling prices
 seacreatures <- seacreatures_url %>%
@@ -48,26 +48,26 @@ seacreatures <- seacreatures_url %>%
   select(name, price) %>%
   mutate(price = gsub(price, pattern = ',', replacement = ''),
          price = as.numeric(price),
-         location = 'Sea',
-         species = 'Sea creatures')
+         location = 'Deep Sea',
+         type = 'Sea creatures')
 
 # combine the fish, bug, and sea creature data into a single dataframe
 critters <- bind_rows(fish, bugs, seacreatures) %>%
-  mutate(species = as.factor(species))
+  mutate(type = as.factor(type))
 
 save(critters, file = here::here('08_animals', 'data', 'critters.RData'))
 
-# most expensive critters per species
+# most expensive critters per type
 critters %>%
-  group_by(species) %>%
+  group_by(type) %>%
   filter(price == max(price)) %>%
-  arrange(price, species)
+  arrange(price, type)
 
 # create the plot
 pal <- c('#a4d4a2', '#ff7c69', '#8ecfca')
 
 ggplot(data = critters,
-       aes(x = price, y = species, fill = species, color = species)) +
+       aes(x = price, y = type, fill = type, color = type)) +
   geom_jitter(alpha = 0.5, size = 2, height = 0.2) +
   geom_boxplot(alpha = 0.2, outlier.shape = NA) +
   scale_x_continuous(breaks = c(0, 5000, 10000, 15000), labels = c('0', '5,000', '10,000', '15,000')) +
@@ -75,19 +75,20 @@ ggplot(data = critters,
   scale_color_manual(values = pal) +
   labs(x = '\nSelling price (Bells)',
        title = 'In-game selling prices of  "Animal Crossing: New Horizons" critters',
-       subtitle = "\nIf you're looking to quickly pay off your mortgage to Tom Nook, focus on catching fish! Although the median selling\nprice of sea creatures is slightly higher, there are six species of fish that will fetch you top Bells compared to only\none such species of sea creature. Bugs have the lowest median selling price, and the maximum selling price is\nsubstantially less than that of the other critter types\n\n",
+       subtitle = "\nIf you're looking to quickly pay off your mortgage to Tom Nook, focus on catching fish! Although the median selling\nprice of sea creatures is slightly higher, there are six species of fish that will fetch you top Bells compared to only\none such species of sea creature. Bugs have the lowest median selling price, and the maximum selling price is\nsubstantially less than that of the other critter types\n",
        caption = '\nData: Animal Crossing Wiki') +
   theme(legend.position = 'none',
-        plot.title = element_text(family = 'gorditas', size = 15, face = 'bold', hjust = 0, color = 'white'),
-        plot.subtitle = element_text(family = 'fresca', size = 11, hjust = 0, color = 'white'),
-        plot.caption = element_text(family = 'fresca', size = 10, hjust = 1, color = 'white'),
-        axis.title.x = element_text(family = 'fresca', size = 12, color = 'white'),
+        plot.title = element_text(family = 'gorditas', size = 12, face = 'bold', hjust = 0.5, color = 'white'),
+        plot.subtitle = element_text(family = 'fresca', size = 9, hjust = 0.5, color = 'white'),
+        plot.caption = element_text(family = 'fresca', size = 8, hjust = 0.5, color = 'white'),
+        axis.title.x = element_text(family = 'fresca', size = 9, color = 'white'),
         axis.title.y = element_blank(),
-        axis.text.x = element_text(family = 'fresca', size = 10, color = 'white'),
-        axis.text.y = element_text(family = 'gorditas', size = 14, color = pal),
+        axis.text.x = element_text(family = 'fresca', size = 8, color = 'white'),
+        axis.text.y = element_text(family = 'gorditas', size = 10, color = pal),
         panel.grid.minor = element_line(color = 'grey40', linetype = 'dotted'),
         panel.grid.major = element_line(color = 'grey40', linetype = 'dotted'),
+        #plot.margin = unit(c(1, 1, 1.5, 1.2),'pt'),
         plot.background = element_rect(fill = 'grey20', color = 'grey20'),
         panel.background = element_rect(fill = 'grey20', color = 'grey20'))
 
-
+ggsave(here::here('08_animals', 'animals.png'), width = 8, height = 4.5, units = 'in', dpi = 500)
