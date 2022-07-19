@@ -16,6 +16,8 @@
 
 ### Day 4: Magical
 
+![](04_magical/magical.png)
+
 ### Day 5: Slope
 
 ![](05_slope/slope.png)
